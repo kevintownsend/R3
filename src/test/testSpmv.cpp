@@ -46,6 +46,8 @@ int main(int argc, char* argv[]){
         if(yVectorCheck[i] != yVector[i]){
             cerr << dec;
             cerr << "mismatch at: " << i << endl;
+            cerr << "yVector: " << yVector[i] << endl;
+            cerr << "yVectorCheck: " << yVectorCheck[i] << endl;
             break;
         }
     }
