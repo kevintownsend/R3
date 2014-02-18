@@ -1,0 +1,13 @@
+# Output products list for <adder>
+adder/doc/floating_point_ds335.pdf
+adder/doc/floating_point_v5_0_readme.txt
+adder/doc/floating_point_v5_0_vinfo.html
+adder.asy
+adder.gise
+adder.ngc
+adder.v
+adder.veo
+adder.xco
+adder.xise
+adder_flist.txt
+adder_xmdf.tcl

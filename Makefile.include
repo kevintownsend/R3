@@ -1,0 +1,22 @@
+#
+# Copyright 2011 Convey Computer Corp. 
+#
+
+# DEFAULT LOCATION FOR DEVELOPMENT
+export CNY_PDK = /opt/convey/pdk
+export CNY_PDK_REV = 2012_03_19
+export CNY_PDK_PLATFORM = hc-1
+
+# Personality can be built with or without a crossbar
+export MC_XBAR = 1
+
+# Personality requires read ordering
+export MC_READ_ORDER = 1
+
+# Personality supports asynchronous core clock
+#   CLK_PERS_RATIO = 0 for synchronous (default)
+#   CLK_PERS_RATIO = 2 for async frequency between 75 and 300 MHz
+
+# DO NOT REMOVE ITEMS BELOW THIS LINE
+include $(CNY_PDK)/$(CNY_PDK_REV)/$(CNY_PDK_PLATFORM)/lib/MakefileInclude.cnypdk
+

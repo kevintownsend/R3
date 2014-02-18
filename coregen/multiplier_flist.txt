@@ -1,0 +1,13 @@
+# Output products list for <multiplier>
+multiplier/doc/floating_point_ds335.pdf
+multiplier/doc/floating_point_v5_0_readme.txt
+multiplier/doc/floating_point_v5_0_vinfo.html
+multiplier.asy
+multiplier.gise
+multiplier.ngc
+multiplier.v
+multiplier.veo
+multiplier.xco
+multiplier.xise
+multiplier_flist.txt
+multiplier_xmdf.tcl

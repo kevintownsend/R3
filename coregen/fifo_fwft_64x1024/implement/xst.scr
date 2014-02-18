@@ -1,0 +1,13 @@
+run
+-ifmt VHDL
+-ent fifo_fwft_64x1024_top 
+-p xc5vlx330-ff1760-1
+-ifn xst.prj
+-write_timing_constraints No
+-iobuf YES
+-max_fanout 100
+-ofn fifo_fwft_64x1024_top 
+-ofmt NGC
+-bus_delimiter ()
+-hierarchy_separator /
+-case Maintain
