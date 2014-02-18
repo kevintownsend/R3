@@ -15,7 +15,7 @@ int main(int argc, char* argv[]){
         value.push_back((double)rand()/rand());
         indexI.push_back(i);
         indexJ.push_back(j);
-        j += rand()%50;
+        j += (rand()%50 + 1);
         if(j >= 128){
             j -= 128;
             i++;
@@ -42,6 +42,13 @@ int main(int argc, char* argv[]){
     cerr << "before run" << endl;
     runR3(encodedMatrix, &xVector[0], &yVector[0]);
     cerr << "after run"  << endl;
+    for(int i = 0; i < yVectorCheck.size(); i++){
+        if(yVectorCheck[i] != yVector[i]){
+            cerr << dec;
+            cerr << "mismatch at: " << i << endl;
+            break;
+        }
+    }
 
     cerr << "finished" << endl;
 }

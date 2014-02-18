@@ -41,6 +41,7 @@ CCaeIsa::CaepInst(int aeId, int opcode, int immed, uint32 inst, uint64 scalar) /
                 if(nnz == 0)
                     continue;
                 else{
+                    /*
                     cerr << hex << "vector: " << vector << endl;
                     cerr << "aAdr: " << aAdr << endl;
                     cerr << "yAdr: " << yAdr << endl;
@@ -48,6 +49,7 @@ CCaeIsa::CaepInst(int aeId, int opcode, int immed, uint32 inst, uint64 scalar) /
                     cerr << "aMemSize: " << aMemSize << endl;
                     cerr << "resultSize: " << resultSize << endl;
                     cerr << hex << "mcv: " << mcv << endl;
+                    */
                 }
                 double* tmpResult = (double*)malloc(sizeof(double) * resultSize);
                 for(int j = 0; j < (int)resultSize; j++)
