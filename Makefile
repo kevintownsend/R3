@@ -21,3 +21,10 @@ src/mmio.o : src/mmio.c
 clean :
 	rm -rf log src/*.o runTestSpmv testSpmv run_simulation src/test/testSpmv
 	make -C sim clean
+
+convey :
+	cp src/test/runTestSpmv .
+	cp src/test/testSpmv .
+	cp src/test/run_simulation .
+	cp src/test/runcp .
+	runcp

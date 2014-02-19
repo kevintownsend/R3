@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export CNY_PERSONALITY_PATH=../personalities
+export CNY_PERSONALITY_PATH=personalities
 export CNY_RUNTIME_STARTUP_DEBUG=0
 export CNY_CALL_STATS=1
 
@@ -28,6 +28,6 @@ if [ ! -e $CNY_CAE_EMULATOR ] ; then
   exit 1
 fi
 
-./exampleR3 $@
+./testSpmv $@
 
 fi
