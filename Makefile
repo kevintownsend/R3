@@ -4,7 +4,7 @@ test : src/test/testSpmv
 	cp src/test/runTestSpmv .
 	cp src/test/testSpmv .
 	cp src/test/run_simulation .
-	runTestSpmv
+	runTestSpmv -vsim
 
 src/test/testSpmv : src/test/testSpmv.cpp src/packetEncoder.o src/r3.o src/mmio.o
 	cnyCC -I./include -o src/test/testSpmv src/test/testSpmv.cpp src/mmio.o src/packetEncoder.o src/r3.o src/cpSMVM.s

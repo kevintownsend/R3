@@ -42,15 +42,18 @@ int main(int argc, char* argv[]){
     cerr << "before run" << endl;
     runR3(encodedMatrix, &xVector[0], &yVector[0]);
     cerr << "after run"  << endl;
+    int errorCount = 0;
     for(int i = 0; i < yVectorCheck.size(); i++){
         if((yVectorCheck[i] > (yVector[i] * 1.01)) || (yVectorCheck[i] * 1.01) < yVector[i]){
             cerr << dec;
             cerr << "mismatch at: " << i << endl;
             cerr << "yVector: " << yVector[i] << endl;
             cerr << "yVectorCheck: " << yVectorCheck[i] << endl;
-            break;
+            errorCount++;
+            if(errorCount == 10)
+                break;
         }
     }
 
-    cerr << "finished" << endl;
+    cerr << "finished with " << errorCount << " errors" << endl;
 }
