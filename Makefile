@@ -21,3 +21,8 @@ src/mmio.o : src/mmio.c
 clean :
 	rm -rf log src/*.o runTestSpmv testSpmv run_simulation src/test/testSpmv
 	make -C sim clean
+
+convey :
+	cp src/test/runcp .
+	scp ktown@linux-5.ece.iastate.edu:~/R3-0.0.0/src/test/testSpmv .
+	runcp
