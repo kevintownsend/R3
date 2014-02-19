@@ -43,7 +43,7 @@ int main(int argc, char* argv[]){
     runR3(encodedMatrix, &xVector[0], &yVector[0]);
     cerr << "after run"  << endl;
     for(int i = 0; i < yVectorCheck.size(); i++){
-        if(yVectorCheck[i] != yVector[i]){
+        if((yVectorCheck[i] > (yVector[i] * 1.01)) || (yVectorCheck[i] * 1.01) < yVector[i]){
             cerr << dec;
             cerr << "mismatch at: " << i << endl;
             cerr << "yVector: " << yVector[i] << endl;
