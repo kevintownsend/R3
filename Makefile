@@ -23,8 +23,5 @@ clean :
 	make -C sim clean
 
 convey :
-	cp src/test/runTestSpmv .
-	cp src/test/testSpmv .
-	cp src/test/run_simulation .
 	cp src/test/runcp .
 	runcp
