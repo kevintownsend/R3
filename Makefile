@@ -24,4 +24,5 @@ clean :
 
 convey :
 	cp src/test/runcp .
+	scp ktown@linux-5.ece.iastate.edu:~/R3-0.0.0/src/test/testSpmv .
 	runcp
