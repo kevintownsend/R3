@@ -1,3 +1,7 @@
+/**
+ * This creates a random matrix and tests it.
+ */
+
 #include <iostream>
 #include <cstdlib>
 #include <vector>
@@ -6,19 +10,36 @@
 using namespace std;
 
 int main(int argc, char* argv[]){
+    int mode = 0;
+    if(argc == 1)
+        mode = 0;
+    else if(argc == 2)
+        mode = 1;
+    else{
+        cerr << "usage: testSpmv [file]" << endl;
+        return 1;
+    }
     vector<int> indexI;
     vector<int> indexJ;
     vector<double> value;
-    int i = 0; int j = 0;
+    switch(mode){
+        case 0:{
+            int i = 0; int j = 0;
 
-    while(i < 128){
-        value.push_back((double)rand()/rand());
-        indexI.push_back(i);
-        indexJ.push_back(j);
-        j += (rand()%50 + 1);
-        if(j >= 128){
-            j -= 128;
-            i++;
+            while(i < 128){
+                value.push_back((double)rand()/rand());
+                indexI.push_back(i);
+                indexJ.push_back(j);
+                j += (rand()%50 + 1);
+                if(j >= 128){
+                    j -= 128;
+                    i++;
+                }
+            }
+        }
+        case 1:{
+            //TODO: read matrix
+            return 1;
         }
     }
     vector<double> xVector;

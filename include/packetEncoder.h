@@ -1,5 +1,6 @@
 #ifndef PACKETENCODER_H
     #define PACKETENCODER_H
+#include <stdint.h>
     typedef unsigned long long int uint64;
     typedef long long int int64;
     typedef unsigned int uint32;
