@@ -6,6 +6,9 @@
 #include <cstdlib>
 #include <vector>
 #include "r3.h"
+#include <fstream>
+#include <sstream>
+#include <string>
 
 using namespace std;
 
@@ -22,8 +25,11 @@ int main(int argc, char* argv[]){
     vector<int> indexI;
     vector<int> indexJ;
     vector<double> value;
+    int M, N, nnz;
     switch(mode){
         case 0:{
+            M = 128;
+            N = 128;
             int i = 0; int j = 0;
 
             while(i < 128){
@@ -36,14 +42,29 @@ int main(int argc, char* argv[]){
                     i++;
                 }
             }
+            nnz = value.size();
         }
         case 1:{
             //TODO: read matrix
-            return 1;
+            ifstream mtxFile(argv[1]);
+            string line;
+            getline(mtxFile, line);
+            getline(mtxFile, line);
+            stringstream(line) >> M >> N >> nnz;
+            cerr << M << " " << N << " " << nnz << endl;
+            for(int i = 0; i < nnz; i++){
+                getline(mtxFile, line);
+                int tmp1, tmp2;
+                double tmpD;
+                stringstream(line) >> tmp1 >> tmp2 >> tmpD;
+                indexI.push_back(tmp1);
+                indexJ.push_back(tmp2);
+                value.push_back(tmpD);
+            }
         }
     }
     vector<double> xVector;
-    for(int i = 0; i < 128; i++){
+    for(int i = 0; i < N; i++){
         xVector.push_back(i);
     }
     //for(int i = 0; i < value.size(); i++){
@@ -52,14 +73,15 @@ int main(int argc, char* argv[]){
     vector<double> yVector;
     vector<double> yVectorCheck;
 
-    for(int i = 0; i < 128; i++){
+    for(int i = 0; i < M; i++){
         yVector.push_back(0);
         yVectorCheck.push_back(0);
     }
     for(int i = 0; i < value.size(); i++){
         yVectorCheck[indexI[i]] += value[i] * xVector[indexJ[i]];
     }
-    spoonHeader* encodedMatrix = cnySpoonFmt(&indexI[0], &indexJ[0], &value[0], 128, 128, value.size());
+    spoonHeader* encodedMatrix = cnySpoonFmt(&indexI[0], &indexJ[0], &value[0], M, N, nnz);
+    //TODO: run outside of emulator check validity
     cerr << "before run" << endl;
     runR3(encodedMatrix, &xVector[0], &yVector[0]);
     cerr << "after run"  << endl;
