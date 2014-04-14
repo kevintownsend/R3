@@ -1,4 +1,4 @@
-all : src/r3.o src/packetEncoder.o src/test/testLib
+all : src/r3.o src/packetEncoder.o src/test/testLib src/r3Checker.o
 
 test : src/test/testSpmv
 	cp src/test/runTestSpmv .
@@ -24,6 +24,9 @@ src/packetEncoder.o : src/packetEncoder.cpp
 src/mmio.o : src/mmio.c
 	cnyCC -I./include -c -o src/mmio.o src/mmio.c
 
+src/r3Checker.o : src/r3Checker.cpp
+	cnyCC -I./include -c -o src/r3Checker.o src/r3Checker.cpp
+
 misc/r3.o : src/r3.o src/mmio.o src/packetEncoder.o src/cpSMVM.s
 	cp src/r3.o misc/r3.o
 
@@ -32,6 +35,8 @@ misc/mmio.o : src/mmio.o
 
 misc/packetEncoder.o : src/packetEncoder.o
 	cp src/packetEncoder.o misc/packetEncoder.o
+
+
 
 misc/cpSMVM.s : src/cpSMVM.s
 	cp src/cpSMVM.s misc/cpSMVM.s
