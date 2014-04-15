@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <vector>
 #include "r3.h"
+#include "r3Checker.h"
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -14,6 +15,7 @@ using namespace std;
 
 int main(int argc, char* argv[]){
     int mode = 0;
+    cerr << "argc: " << argc << endl;
     if(argc == 1)
         mode = 0;
     else if(argc == 2)
@@ -43,6 +45,7 @@ int main(int argc, char* argv[]){
                 }
             }
             nnz = value.size();
+            break;
         }
         case 1:{
             //TODO: read matrix
@@ -61,6 +64,7 @@ int main(int argc, char* argv[]){
                 indexJ.push_back(tmp2);
                 value.push_back(tmpD);
             }
+            break;
         }
     }
     vector<double> xVector;
@@ -80,8 +84,10 @@ int main(int argc, char* argv[]){
     for(int i = 0; i < value.size(); i++){
         yVectorCheck[indexI[i]] += value[i] * xVector[indexJ[i]];
     }
+    cerr << "before encoding" << endl;
     spoonHeader* encodedMatrix = cnySpoonFmt(&indexI[0], &indexJ[0], &value[0], M, N, nnz);
     //TODO: run outside of emulator check validity
+    r3Check(encodedMatrix, &indexI[0], &indexJ[0], &value[0], M, N, nnz);
     cerr << "before run" << endl;
     runR3(encodedMatrix, &xVector[0], &yVector[0]);
     cerr << "after run"  << endl;

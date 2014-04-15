@@ -12,8 +12,8 @@ test2 : src/test/testSpmv
 	cp src/test/run_simulation .
 	runTestSpmv ${HOME}/train.mtx
 
-src/test/testSpmv : src/test/testSpmv.cpp src/packetEncoder.o src/r3.o src/mmio.o
-	cnyCC -I./include -o src/test/testSpmv src/test/testSpmv.cpp src/mmio.o src/packetEncoder.o src/r3.o src/cpSMVM.s
+src/test/testSpmv : src/test/testSpmv.cpp src/packetEncoder.o src/r3.o src/mmio.o src/r3Checker.o
+	cnyCC -I./include -o src/test/testSpmv src/test/testSpmv.cpp src/mmio.o src/packetEncoder.o src/r3.o src/cpSMVM.s src/r3Checker.o
 
 src/r3.o : src/r3.cpp 
 	cnyCC -I./include -c -o src/r3.o src/r3.cpp
@@ -25,7 +25,7 @@ src/mmio.o : src/mmio.c
 	cnyCC -I./include -c -o src/mmio.o src/mmio.c
 
 src/r3Checker.o : src/r3Checker.cpp
-	cnyCC -I./include -c -o src/r3Checker.o src/r3Checker.cpp
+	cnyCC -I./include -O3 -c -o src/r3Checker.o src/r3Checker.cpp
 
 misc/r3.o : src/r3.o src/mmio.o src/packetEncoder.o src/cpSMVM.s
 	cp src/r3.o misc/r3.o
