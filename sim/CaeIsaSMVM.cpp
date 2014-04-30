@@ -30,6 +30,7 @@ CCaeIsa::CaepInst(int aeId, int opcode, int immed, uint32 inst, uint64 scalar) /
         case 0x20: {
             cout << "Hello World from emulated ae" << aeId << endl;
             for(int i = 0; i < 16; i++){
+                cerr << "Eumulated PE: " << aeId << ":" << i << endl;
                 uint64 vector = ReadAeg(aeId, 1);
                 uint64 aAdr, yAdr, nnz, aMemSize, resultSize,mcv;
                 aAdr = ReadAeg(aeId, 6 + i * 6);

@@ -6,7 +6,7 @@ test : src/test/testSpmv
 	cp src/test/run_simulation .
 	runTestSpmv -vsim
 
-test2 : src/test/testSpmv
+test2 : src/test/testSpmv 
 	cp src/test/runTestSpmv .
 	cp src/test/testSpmv .
 	cp src/test/run_simulation .
@@ -35,8 +35,6 @@ misc/mmio.o : src/mmio.o
 
 misc/packetEncoder.o : src/packetEncoder.o
 	cp src/packetEncoder.o misc/packetEncoder.o
-
-
 
 misc/cpSMVM.s : src/cpSMVM.s
 	cp src/cpSMVM.s misc/cpSMVM.s

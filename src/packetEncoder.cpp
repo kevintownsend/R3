@@ -202,16 +202,16 @@ int basicTo16ColMajRowMaj(uint64* source, uint64** dest, int nnz){
     return destPtr;
 }
 
-int splitCoo(void* coo, uint32 nz, uint64** splitData, double* y){
+int splitCoo(void* coo, uint32 nz, uint64** splitData, double* y, int chunks){
     //split data format: a, res, nnz, a mem size, res_size
     uint64* cooU64 = (uint64*)coo;
-    double cutSize = nz / 64.0;
-    *splitData = (uint64*)malloc(64 * 5 * sizeof(uint64));
+    double cutSize = nz / (double)chunks;
+    *splitData = (uint64*)malloc(chunks * 5 * sizeof(uint64));
     uint64* data = *splitData;
     uint64 cursor = 0;
     data[0] = (uint64)coo;
     data[1] = (uint64)y;
-    for(uint32 j = 1; j < 64; j++){
+    for(uint32 j = 1; j < chunks; j++){
         cursor = j * cutSize;
         while(((cooU64[2 * cursor] % 0x10) == 0) && (cursor < nz)){
             cursor++;
@@ -232,9 +232,9 @@ int splitCoo(void* coo, uint32 nz, uint64** splitData, double* y){
         //res_size
         data[(j - 1) * 5 + 4] = (data[j * 5 + 1] - data[(j - 1) * 5 + 1]) / 8;
     }
-    data[63 * 5 + 2] = (uint64)nz - (data[63 * 5] - (uint64)coo) / 16;
-    data[63 * 5 + 3] = data[63 * 5 + 2] * 16;
-    data[63 * 5 + 4] = ((uint32)(cooU64[2 * (nz - 1)]) + 1) - (data[63 * 5 + 1] - data[1]) / 8;
+    data[(chunks-1) * 5 + 2] = (uint64)nz - (data[(chunks-1) * 5] - (uint64)coo) / 16;
+    data[(chunks-1) * 5 + 3] = data[(chunks-1) * 5 + 2] * 16;
+    data[(chunks-1) * 5 + 4] = ((uint32)(cooU64[2 * (nz - 1)]) + 1) - (data[(chunks-1) * 5 + 1] - data[1]) / 8;
     
     return 0;
 }
@@ -534,8 +534,9 @@ int toSpoon(spoonHeader** spoonData, int* row, int* col, double* val, uint64_t M
     tmp = 0;
     cout << "first of data:" << endl;
     for(int i = 0; i < 100; i++){
-        cout << "(" << row[i] << "," << col[i] << ")" << " = " << val[i];
+        cerr << "(" << row[i] << "," << col[i] << ")" << " = " << val[i];
     }
+    /*
     for(int i = 1; i < sets; i++){
         tmp = nnz * i / sets;
         if(row[tmp] % 16 < 8){
@@ -546,28 +547,29 @@ int toSpoon(spoonHeader** spoonData, int* row, int* col, double* val, uint64_t M
             while(row[tmp] % 16 != 0)
                 tmp++;
         }
-        cout << "this sucks: " << tmp;
-        toSpoon(*spoonData + 64 * (i - 1), row + prevTmp, col + prevTmp, val + prevTmp, row[tmp] - row[prevTmp] ,N, tmp - prevTmp);
+        cerr << "Spliting at element: " << tmp << endl;
+        //This does not work...
+        toSpoon(*spoonData + 64 * (i - 1), row + prevTmp, col + prevTmp, val + prevTmp, row[tmp] - row[prevTmp], N, tmp - prevTmp);
         prevTmp = tmp;
     }
-    toSpoon(*spoonData + 64 * (sets - 1), row + tmp, col + tmp, val + tmp, M - row[tmp], N, nnz - tmp);
+    */
+    toSpoon(*spoonData, row, col, val, M, N, nnz, chunks);
 
     return sets;
 }
 int toSpoon(spoonHeader** spoonData, int* row, int* col, double* val, int M, int N, int nnz){
     *spoonData = (spoonHeader*)malloc(64 * sizeof(spoonHeader));
     return toSpoon(*spoonData, row, col, val, M, N, nnz);
-    
 }
 
-int toSpoon(spoonHeader* spoonData, int* row, int* col, double* val, int M, int N, int nnz){
+int toSpoon(spoonHeader* spoonData, int* row, int* col, double* val, int M, int N, int nnz, int chunks){
     //TODO: change spoonData to single
     void* coo;
     sparseToCoo((uint32*)col, (uint32*)row, val, &coo, (uint32)nnz);
 
     double* y = (double*)malloc(sizeof(double) * M);
     uint64* splitData;
-    splitCoo((uint64*)coo, (uint32)nnz, &splitData, y);
+    splitCoo((uint64*)coo, (uint32)nnz, &splitData, y, chunks);
     uint64* cooColRow;
     nnz = basicTo16ColMajRowMaj((uint64*)coo, &cooColRow, nnz);
     
@@ -575,7 +577,7 @@ int toSpoon(spoonHeader* spoonData, int* row, int* col, double* val, int M, int 
     spoonHeader* hostSpoonData = spoonData;
     uint64* cooColRowPtr = cooColRow;
     //TODO: move to cny
-    for(int i = 0; i < 64; i++){
+    for(int i = 0; i < chunks; i++){
         if(splitData[i * 5 + 2] == 0){
             hostSpoonData[i].mcv = NULL;
             hostSpoonData[i].a = NULL;

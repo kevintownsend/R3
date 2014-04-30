@@ -60,8 +60,8 @@ int main(int argc, char* argv[]){
                 int tmp1, tmp2;
                 double tmpD;
                 stringstream(line) >> tmp1 >> tmp2 >> tmpD;
-                indexI.push_back(tmp1);
-                indexJ.push_back(tmp2);
+                indexI.push_back(tmp1 - 1);
+                indexJ.push_back(tmp2 - 1);
                 value.push_back(tmpD);
             }
             break;
@@ -86,7 +86,6 @@ int main(int argc, char* argv[]){
     }
     cerr << "before encoding" << endl;
     spoonHeader* encodedMatrix = cnySpoonFmt(&indexI[0], &indexJ[0], &value[0], M, N, nnz);
-    //TODO: run outside of emulator check validity
     r3Check(encodedMatrix, &indexI[0], &indexJ[0], &value[0], M, N, nnz);
     cerr << "before run" << endl;
     runR3(encodedMatrix, &xVector[0], &yVector[0]);
@@ -103,6 +102,30 @@ int main(int argc, char* argv[]){
                 break;
         }
     }
+    //run split case
+    cerr << "running split case" << endl;
+
+    int sets;
+    cerr << "before encoding" << endl;
+    encodedMatrix = cnySpoonFmt(&indexI[0], &indexJ[0], &value[0], M, N, nnz, 10000, &sets);
+    r3Check(encodedMatrix, &indexI[0], &indexJ[0], &value[0], M, N, nnz, sets);
+    return 0;
+    cerr << "before run" << endl;
+    runR3(encodedMatrix, &xVector[0], &yVector[0],sets);
+    cerr << "after run"  << endl;
+    errorCount = 0;
+    for(int i = 0; i < yVectorCheck.size(); i++){
+        if((yVectorCheck[i] > (yVector[i] * 1.01)) || (yVectorCheck[i] * 1.01) < yVector[i]){
+            cerr << dec;
+            cerr << "mismatch at: " << i << endl;
+            cerr << "yVector: " << yVector[i] << endl;
+            cerr << "yVectorCheck: " << yVectorCheck[i] << endl;
+            errorCount++;
+            if(errorCount == 10)
+                break;
+        }
+    }
 
     cerr << "finished with " << errorCount << " errors" << endl;
+    return 0;
 }
