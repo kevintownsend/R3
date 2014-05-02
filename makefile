@@ -10,13 +10,13 @@ test2 : src/test/testSpmv
 	cp src/test/runTestSpmv .
 	cp src/test/testSpmv .
 	cp src/test/run_simulation .
-	runTestSpmv bigExample.mtx
+	runTestSpmv medExample.mtx
 
 test3 : src/test/testChecker
 	cp src/test/runTestChecker .
 	cp src/test/testChecker .
 	cp src/test/run_simulation .
-	runTestChecker bigExample.mtx
+	runTestChecker medExample.mtx
 
 src/test/testChecker : src/test/testChecker.cpp src/packetEncoder.o src/r3.o src/mmio.o src/r3Checker.o
 	cnyCC -I./include -o src/test/testChecker src/test/testChecker.cpp src/mmio.o src/packetEncoder.o src/r3.o src/cpSMVM.s src/r3Checker.o
@@ -63,4 +63,4 @@ release :
 convey :
 	cp src/test/runcp .
 	scp ktown@linux-5.ece.iastate.edu:~/R3-0.0.0/src/test/testSpmv .
-	runcp
+	runcp medExample

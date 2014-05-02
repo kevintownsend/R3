@@ -111,6 +111,9 @@ int main(int argc, char* argv[]){
     cerr << "running r3 checker sets: " << sets << endl;
     r3Check(encodedMatrix, &indexI[0], &indexJ[0], &value[0], M, N, nnz, sets);
     //return 0;
+    for(int i = 0; i < M; i++){
+        yVector[i] =0;
+    }
     cerr << "before run" << endl;
     runR3(encodedMatrix, &xVector[0], &yVector[0],sets);
     cerr << "after run"  << endl;
