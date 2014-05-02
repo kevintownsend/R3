@@ -110,7 +110,7 @@ int main(int argc, char* argv[]){
     encodedMatrix = cnySpoonFmt(&indexI[0], &indexJ[0], &value[0], M, N, nnz, 100, &sets);
     cerr << "running r3 checker sets: " << sets << endl;
     r3Check(encodedMatrix, &indexI[0], &indexJ[0], &value[0], M, N, nnz, sets);
-    return 0;
+    //return 0;
     cerr << "before run" << endl;
     runR3(encodedMatrix, &xVector[0], &yVector[0],sets);
     cerr << "after run"  << endl;
