@@ -64,7 +64,7 @@ spoonHeader* cnySpoonFmt(int* row, int* col, double* val, int M, int N, int nnz,
     cout << "end spoon" << endl;
     cout << "sets: " << *sets << endl;
     for(int i = 0; i < 64 * (*sets); i++){
-        cout << "iteration: " << i << endl;
+        //cout << "iteration: " << i << endl;
         //printPacket(headerInfo[i].a, headerInfo[i].aSize);
         void *A = (void*)cny_cp_malloc(headerInfo[i].aSize);
         cny_cp_memcpy(A, headerInfo[i].a, headerInfo[i].aSize);

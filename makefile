@@ -10,7 +10,16 @@ test2 : src/test/testSpmv
 	cp src/test/runTestSpmv .
 	cp src/test/testSpmv .
 	cp src/test/run_simulation .
-	runTestSpmv ${HOME}/train.mtx
+	runTestSpmv bigExample.mtx
+
+test3 : src/test/testChecker
+	cp src/test/runTestChecker .
+	cp src/test/testChecker .
+	cp src/test/run_simulation .
+	runTestChecker bigExample.mtx
+
+src/test/testChecker : src/test/testChecker.cpp src/packetEncoder.o src/r3.o src/mmio.o src/r3Checker.o
+	cnyCC -I./include -o src/test/testChecker src/test/testChecker.cpp src/mmio.o src/packetEncoder.o src/r3.o src/cpSMVM.s src/r3Checker.o
 
 src/test/testSpmv : src/test/testSpmv.cpp src/packetEncoder.o src/r3.o src/mmio.o src/r3Checker.o
 	cnyCC -I./include -o src/test/testSpmv src/test/testSpmv.cpp src/mmio.o src/packetEncoder.o src/r3.o src/cpSMVM.s src/r3Checker.o
@@ -43,7 +52,7 @@ src/test/testLib : src/test/testLib.cpp misc/packetEncoder.o misc/cpSMVM.s misc/
 	cnyCC -I./include misc/r3.o misc/packetEncoder.o misc/cpSMVM.s misc/mmio.o -o src/test/testLib src/test/testLib.cpp 
 	
 clean :
-	rm -rf log src/*.o runTestSpmv testSpmv run_simulation src/test/testSpmv lib/*
+	rm -rf log src/*.o runTestSpmv testSpmv run_simulation src/test/testSpmv testChecker src/test/testChecker runTestChecker lib/*
 	make -C sim clean
 
 release :

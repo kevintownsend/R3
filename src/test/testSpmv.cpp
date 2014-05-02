@@ -107,7 +107,8 @@ int main(int argc, char* argv[]){
 
     int sets;
     cerr << "before encoding" << endl;
-    encodedMatrix = cnySpoonFmt(&indexI[0], &indexJ[0], &value[0], M, N, nnz, 10000, &sets);
+    encodedMatrix = cnySpoonFmt(&indexI[0], &indexJ[0], &value[0], M, N, nnz, 100, &sets);
+    cerr << "running r3 checker sets: " << sets << endl;
     r3Check(encodedMatrix, &indexI[0], &indexJ[0], &value[0], M, N, nnz, sets);
     return 0;
     cerr << "before run" << endl;
