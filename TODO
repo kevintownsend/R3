@@ -1,1 +1,6 @@
+<<<<<<< HEAD
 TODO: enable preprocessor to detect and fix matrices that are not prefectly setup
+=======
+TODO: test arbitrary matrices
+TODO: Maybe some documentation...
+>>>>>>> 29e3fdc62fb4fb25813707a9563f5352ac4d7192

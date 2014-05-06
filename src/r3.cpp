@@ -59,12 +59,12 @@ spoonHeader* cnySpoonFmt(int* row, int* col, double* val, int M, int N, int nnz,
         cout << "ERROR: cny_get_signiture() Failure: " << stat << endl;
         exit(1);
     }
-    cout << "begin spooning" << endl;
+    cout << "begin spoon" << endl;
     *sets = toSpoon(&headerInfo, row, col, val, (uint64_t)M, (uint64_t)N, (uint64_t)nnz, maxSize);
-    cout << "end spooning" << endl;
+    cout << "end spoon" << endl;
     cout << "sets: " << *sets << endl;
     for(int i = 0; i < 64 * (*sets); i++){
-        cout << "interation: " << i << endl;
+        //cout << "iteration: " << i << endl;
         //printPacket(headerInfo[i].a, headerInfo[i].aSize);
         void *A = (void*)cny_cp_malloc(headerInfo[i].aSize);
         cny_cp_memcpy(A, headerInfo[i].a, headerInfo[i].aSize);
