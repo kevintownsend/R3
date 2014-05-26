@@ -1,4 +1,4 @@
-all : src/r3.o src/packetEncoder.o src/test/testLib src/r3Checker.o
+all : src/r3.o src/packetEncoder.o src/test/testLib src/r3Checker.o misc/r3.o
 
 test : src/test/testSpmv
 	cp src/test/runTestSpmv .
@@ -52,10 +52,10 @@ src/test/testLib : src/test/testLib.cpp misc/packetEncoder.o misc/cpSMVM.s misc/
 	cnyCC -I./include misc/r3.o misc/packetEncoder.o misc/cpSMVM.s misc/mmio.o -o src/test/testLib src/test/testLib.cpp 
 	
 clean :
-	rm -rf log src/*.o runTestSpmv testSpmv run_simulation src/test/testSpmv testChecker src/test/testChecker runTestChecker lib/*
+	rm -rf log src/*.o runTestSpmv testSpmv run_simulation src/test/testSpmv testChecker src/test/testChecker runTestChecker lib/* misc/*
 	make -C sim clean
 
-release :
+release : misc/r3.o misc/mmio.o misc/packetEncoder.o misc/cpSMVM.s 
 	cp -r misc ${HOME}/
 	cp -r include ${HOME}/
 	cp -r personalities ${HOME}/
